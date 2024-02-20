@@ -1,42 +1,22 @@
-package com.MedicalSuppliesSystem.MedicalSupplies.model;
+package com.MedicalSuppliesSystem.MedicalSupplies.dto;
 
-import org.hibernate.annotations.GenericGenerator;
-
-import java.io.Serializable;
+import com.MedicalSuppliesSystem.MedicalSupplies.model.Customer;
+import com.MedicalSuppliesSystem.MedicalSupplies.model.Item;
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.util.List;
-import javax.persistence.*;
 
-@Entity
-@Table(name="orders")
-public class Order implements Serializable {
+public class OrderDto {
 
-    @Id
-    @Column(name = "orderno")
-    @GeneratedValue(strategy= GenerationType.AUTO,generator="native")
-    @GenericGenerator(name = "native",strategy = "native")
-    private Long orderNo;
-    @Column(name="order_type")
     private String orderType;
-    @Column(name="customerno")
-    @ManyToOne(optional = true , cascade = {CascadeType.ALL})
     private Customer customerno;
-    @Column(name="order_address")
     private String orderAddress;
-    @Column(name="delivery_price")
     private BigDecimal deliveryPrice;
-    @Column(name="orderPrice")
     private BigDecimal orderPrice;
-    @Column(name="amount")
     private BigDecimal amount;
-    @Column(name="discount")
     private BigDecimal discount;
-    @OneToMany(orphanRemoval = true, cascade = {CascadeType.ALL}, mappedBy = "itemno", fetch = FetchType.LAZY)
     private List<Item> itemList;
 
-    public Order(Long orderNo, String orderType, Customer customerno, String orderAddress, BigDecimal deliveryPrice, BigDecimal orderPrice, BigDecimal amount, BigDecimal discount, List<Item> itemList) {
-        this.orderNo = orderNo;
+    public OrderDto(String orderType, Customer customerno, String orderAddress, BigDecimal deliveryPrice, BigDecimal orderPrice, BigDecimal amount, BigDecimal discount, List<Item> itemList) {
         this.orderType = orderType;
         this.customerno = customerno;
         this.orderAddress = orderAddress;
@@ -45,14 +25,6 @@ public class Order implements Serializable {
         this.amount = amount;
         this.discount = discount;
         this.itemList = itemList;
-    }
-
-    public Long getOrderNo() {
-        return orderNo;
-    }
-
-    public void setOrderNo(Long orderNo) {
-        this.orderNo = orderNo;
     }
 
     public String getOrderType() {
@@ -121,9 +93,8 @@ public class Order implements Serializable {
 
     @Override
     public String toString() {
-        return "Order{" +
-                "orderNo=" + orderNo +
-                ", orderType='" + orderType + '\'' +
+        return "OrderDto{" +
+                "orderType='" + orderType + '\'' +
                 ", customerno=" + customerno +
                 ", orderAddress='" + orderAddress + '\'' +
                 ", deliveryPrice=" + deliveryPrice +

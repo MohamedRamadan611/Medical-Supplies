@@ -1,59 +1,37 @@
-package com.MedicalSuppliesSystem.MedicalSupplies.model;
+package com.MedicalSuppliesSystem.MedicalSupplies.dto;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.MedicalSuppliesSystem.MedicalSupplies.model.Customer;
+import com.MedicalSuppliesSystem.MedicalSupplies.model.Order;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.util.Date;
 import java.util.List;
 
-@Entity
-@Table(name = "invoices")
-public class Invoices implements Serializable {
-
-    @Id
-    @Column(name = "invoiceno")
-    @GeneratedValue(strategy= GenerationType.AUTO,generator="native")
-    @GenericGenerator(name = "native",strategy = "native")
-    private Long invoiceno;
-    @Column(name ="payment_type")
+public class InvoicesDto {
     private int paymentType;
-    @Column(name = "payment_status")
-    private String paymentStatus;
-    @Column(name = "auth_code")
     private String authCode;
-    @Column(name="order_address")
-    private String orderAddress;
-    @Column(name="delivery_price")
     private BigDecimal deliveryPrice;
-    @Column(name="order_price")
     private BigDecimal orderPrice;
-    @Column(name="amount")
     private BigDecimal amount;
-    @Column(name="discount")
     private BigDecimal discount;
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "creation_date")
     private Date creationDate;
-    @Column(name="order_type")
     private String orderType;
-    @JoinColumn(name = "customerno" , referencedColumnName = "customerId")
-    @ManyToOne(optional = true , cascade = {CascadeType.ALL})
     private Customer customerno;
-    @OneToMany(orphanRemoval = true, cascade = {CascadeType.ALL}, mappedBy = "orderNo", fetch = FetchType.LAZY)
     private List<Order> orderList;
 
-
-    public Long getInvoiceno() {
-        return invoiceno;
-    }
-
-    public void setInvoiceno(Long invoiceno) {
-        this.invoiceno = invoiceno;
+    public InvoicesDto(int paymentType, String authCode, BigDecimal deliveryPrice, BigDecimal orderPrice, BigDecimal amount, BigDecimal discount, Date creationDate, String orderType, Customer customerno, List<Order> orderList) {
+        this.paymentType = paymentType;
+        this.authCode = authCode;
+        this.deliveryPrice = deliveryPrice;
+        this.orderPrice = orderPrice;
+        this.amount = amount;
+        this.discount = discount;
+        this.creationDate = creationDate;
+        this.orderType = orderType;
+        this.customerno = customerno;
+        this.orderList = orderList;
     }
 
     public int getPaymentType() {
@@ -62,14 +40,6 @@ public class Invoices implements Serializable {
 
     public void setPaymentType(int paymentType) {
         this.paymentType = paymentType;
-    }
-
-    public String getPaymentStatus() {
-        return paymentStatus;
-    }
-
-    public void setPaymentStatus(String paymentStatus) {
-        this.paymentStatus = paymentStatus;
     }
 
     public String getAuthCode() {
@@ -120,6 +90,14 @@ public class Invoices implements Serializable {
         this.creationDate = creationDate;
     }
 
+    public String getOrderType() {
+        return orderType;
+    }
+
+    public void setOrderType(String orderType) {
+        this.orderType = orderType;
+    }
+
     public Customer getCustomerno() {
         return customerno;
     }
@@ -136,28 +114,10 @@ public class Invoices implements Serializable {
         this.orderList = orderList;
     }
 
-    public String getOrderType() {
-        return orderType;
-    }
-
-    public void setOrderType(String orderType) {
-        this.orderType = orderType;
-    }
-
-    public String getOrderAddress() {
-        return orderAddress;
-    }
-
-    public void setOrderAddress(String orderAddress) {
-        this.orderAddress = orderAddress;
-    }
-
     @Override
     public String toString() {
-        return "Invoices{" +
-                "invoiceno=" + invoiceno +
-                ", paymentType=" + paymentType +
-                ", paymentStatus='" + paymentStatus + '\'' +
+        return "InvoicesDto{" +
+                "paymentType=" + paymentType +
                 ", authCode='" + authCode + '\'' +
                 ", deliveryPrice=" + deliveryPrice +
                 ", orderPrice=" + orderPrice +

@@ -1,18 +1,21 @@
 package com.MedicalSuppliesSystem.MedicalSupplies.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import org.hibernate.annotations.GenericGenerator;
+
+import javax.persistence.*;
+import java.io.Serializable;
 import java.math.BigInteger;
+import java.util.Date;
 
 @Entity
 @Table(name="customer")
-public class Customer {
+public class Customer implements Serializable {
 
     @Id
-    @Column(name="customerId")
-    private BigInteger customerId;
+    @Column(name = "customer_id")
+    @GeneratedValue(strategy= GenerationType.AUTO,generator="native")
+    @GenericGenerator(name = "native",strategy = "native")
+    private Long customerId;
 
     @Column(name="phone")
     private String phone;
@@ -22,19 +25,23 @@ public class Customer {
 
     @Column(name="customer_name")
     private String customerName;
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "creation_date")
+    private Date creationDate;
 
-    public Customer(BigInteger customerId, String phone, String address, String customerName) {
+    public Customer(Long customerId, String phone, String address, String customerName, Date creationDate) {
         this.customerId = customerId;
         this.phone = phone;
         this.address = address;
         this.customerName = customerName;
+        this.creationDate = creationDate;
     }
 
-    public BigInteger getCustomerId() {
+    public Long getCustomerId() {
         return customerId;
     }
 
-    public void setCustomerId(BigInteger customerId) {
+    public void setCustomerId(Long customerId) {
         this.customerId = customerId;
     }
 
@@ -62,13 +69,22 @@ public class Customer {
         this.customerName = customerName;
     }
 
+    public Date getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(Date creationDate) {
+        this.creationDate = creationDate;
+    }
+
     @Override
     public String toString() {
         return "Customer{" +
-                "id=" + customerId +
+                "customerId=" + customerId +
                 ", phone='" + phone + '\'' +
                 ", address='" + address + '\'' +
-                ", customer='" + customerName + '\'' +
+                ", customerName='" + customerName + '\'' +
+                ", creationDate=" + creationDate +
                 '}';
     }
 }

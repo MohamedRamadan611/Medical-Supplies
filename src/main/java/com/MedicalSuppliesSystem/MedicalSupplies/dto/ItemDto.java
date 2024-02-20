@@ -1,30 +1,17 @@
-package com.MedicalSuppliesSystem.MedicalSupplies.model;
+package com.MedicalSuppliesSystem.MedicalSupplies.dto;
 
-import java.io.Serializable;
+
 import java.math.BigDecimal;
-import java.math.BigInteger;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
-@Entity
-@Table(name="item")
 
-public class Item implements Serializable {
+public class ItemDto {
 
-    @Id
-    @Column(name="itemno")
     private String itemno;
-    @Column(name="price")
     private BigDecimal price;
-    @Column(name="details")
     private String details;
-    @Column(name="item_name")
     private String itemName;
-    @Column(name="company")
     private String company;
 
-    public Item(String itemno, BigDecimal price, String details, String itemName, String company) {
+    public ItemDto(String itemno, BigDecimal price, String details, String itemName, String company) {
         this.itemno = itemno;
         this.price = price;
         this.details = details;
@@ -69,17 +56,17 @@ public class Item implements Serializable {
     }
 
     public void setCompany(String company) {
-        company = company;
+        this.company = company;
     }
 
     @Override
     public String toString() {
-        return "Item{" +
-                "itemno=" + itemno +
+        return "itemDto{" +
+                "itemno='" + itemno + '\'' +
                 ", price=" + price +
                 ", details='" + details + '\'' +
                 ", itemName='" + itemName + '\'' +
-                ", Company='" + company + '\'' +
+                ", company='" + company + '\'' +
                 '}';
     }
 }
