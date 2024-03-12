@@ -1,16 +1,27 @@
 package com.MedicalSuppliesSystem.MedicalSupplies.dto;
 
-import javax.persistence.Column;
+import com.MedicalSuppliesSystem.MedicalSupplies.utils.serializer.JsonDateTimeDeserializer;
+import com.MedicalSuppliesSystem.MedicalSupplies.utils.serializer.JsonDateTimeSerializer;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
-public class CustomerDto {
+import javax.persistence.Column;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import java.io.Serializable;
+import java.util.Date;
+
+public class CustomerDto implements Serializable {
 
     private String phone;
-
     private String address;
-
     private String customerName;
 
-    public CustomerDto(String phone, String address, String customerName) {
+    public CustomerDto() {
+    }
+
+    public CustomerDto(String phone, String address, String customerName, Date customerCreationDate) {
         this.phone = phone;
         this.address = address;
         this.customerName = customerName;

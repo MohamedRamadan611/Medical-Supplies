@@ -1,10 +1,10 @@
 package com.MedicalSuppliesSystem.MedicalSupplies.utils.serializer;
 
+import com.MedicalSuppliesSystem.MedicalSupplies.exception.JsonParseException;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
-import com.unilever.csm.exceptions.JsonParseException;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;

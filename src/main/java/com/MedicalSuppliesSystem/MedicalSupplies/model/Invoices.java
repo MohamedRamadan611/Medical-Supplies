@@ -1,5 +1,7 @@
 package com.MedicalSuppliesSystem.MedicalSupplies.model;
 
+import com.MedicalSuppliesSystem.MedicalSupplies.utils.serializer.JsonDateTimeDeserializer;
+import com.MedicalSuppliesSystem.MedicalSupplies.utils.serializer.JsonDateTimeSerializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.hibernate.annotations.GenericGenerator;
@@ -37,11 +39,13 @@ public class Invoices implements Serializable {
     @Column(name="discount")
     private BigDecimal discount;
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "creation_date")
-    private Date creationDate;
+    @JsonSerialize(using = JsonDateTimeSerializer.class)
+    @JsonDeserialize(using = JsonDateTimeDeserializer.class)
+    @Column(name = "invoice_creation_date")
+    private Date invoiceCreationDate;
     @Column(name="order_type")
     private String orderType;
-    @JoinColumn(name = "customerno" , referencedColumnName = "customerId")
+    @JoinColumn(name = "customerno" , referencedColumnName = "customer_id")
     @ManyToOne(optional = true , cascade = {CascadeType.ALL})
     private Customer customerno;
     @OneToMany(orphanRemoval = true, cascade = {CascadeType.ALL}, mappedBy = "orderNo", fetch = FetchType.LAZY)
@@ -112,12 +116,12 @@ public class Invoices implements Serializable {
         this.discount = discount;
     }
 
-    public Date getCreationDate() {
-        return creationDate;
+    public Date getInvoiceCreationDate() {
+        return invoiceCreationDate;
     }
 
-    public void setCreationDate(Date creationDate) {
-        this.creationDate = creationDate;
+    public void setInvoiceCreationDate(Date invoiceCreationDate) {
+        this.invoiceCreationDate = invoiceCreationDate;
     }
 
     public Customer getCustomerno() {
@@ -163,7 +167,7 @@ public class Invoices implements Serializable {
                 ", orderPrice=" + orderPrice +
                 ", amount=" + amount +
                 ", discount=" + discount +
-                ", creationDate=" + creationDate +
+                ", creationDate=" + invoiceCreationDate +
                 ", orderType='" + orderType + '\'' +
                 ", customerno=" + customerno +
                 ", orderList=" + orderList +

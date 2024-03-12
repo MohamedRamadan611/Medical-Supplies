@@ -1,40 +1,44 @@
 package com.MedicalSuppliesSystem.MedicalSupplies.model;
 
 
+import com.MedicalSuppliesSystem.MedicalSupplies.model.pk.StockID;
+import com.MedicalSuppliesSystem.MedicalSupplies.utils.serializer.JsonDateTimeDeserializer;
+import com.MedicalSuppliesSystem.MedicalSupplies.utils.serializer.JsonDateTimeSerializer;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Date;
 
 @Entity
 @Table(name="stock")
+@IdClass(StockID.class)
 public class Stock implements Serializable {
 
     @Id
-    @Column(name="stockTransNo")
+    @Column(name="stock_trans_no")
     @GeneratedValue(strategy= GenerationType.AUTO,generator="native")
     @GenericGenerator(name = "native",strategy = "native")
     private Long stockTransNo;
     @Column(name="quantity")
-    private int quantity;
+    private Long quantity;
     @Column(name="sold_quantity")
-    private int soldQuantity;
+    private Long soldQuantity;
     @Column(name="remain_quantity")
-    private int remainQuantity;
+    private Long remainQuantity;
+    @Id
     @Column(name="inventory_branch")
     private int inventoryBranch;
-    @Column(name="itemno")
-    @OneToOne
-    private Item itemno;
-
-    public Stock(Long stockTransNo, int quantity, int soldQuantity, int remainQuantity, int inventoryBranch, Item itemno) {
-        this.stockTransNo = stockTransNo;
-        this.quantity = quantity;
-        this.soldQuantity = soldQuantity;
-        this.remainQuantity = remainQuantity;
-        this.inventoryBranch = inventoryBranch;
-        this.itemno = itemno;
-    }
+    @Temporal(TemporalType.TIMESTAMP)
+    @JsonSerialize(using = JsonDateTimeSerializer.class)
+    @JsonDeserialize(using = JsonDateTimeDeserializer.class)
+    @Column(name = "stock_creation_date")
+    private Date stockCreationDate;
+    @Id
+    @Column(name = "itemno")
+    private String itemno;
     public Long getStockTransNo() {
         return stockTransNo;
     }
@@ -43,27 +47,27 @@ public class Stock implements Serializable {
         this.stockTransNo = stockTransNo;
     }
 
-    public int getQuantity() {
+    public Long getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(int quantity) {
+    public void setQuantity(Long quantity) {
         this.quantity = quantity;
     }
 
-    public int getSoldQuantity() {
+    public Long getSoldQuantity() {
         return soldQuantity;
     }
 
-    public void setSoldQuantity(int soldQuantity) {
+    public void setSoldQuantity(Long soldQuantity) {
         this.soldQuantity = soldQuantity;
     }
 
-    public int getRemainQuantity() {
+    public Long getRemainQuantity() {
         return remainQuantity;
     }
 
-    public void setRemainQuantity(int remainQuantity) {
+    public void setRemainQuantity(Long remainQuantity) {
         this.remainQuantity = remainQuantity;
     }
 
@@ -75,23 +79,19 @@ public class Stock implements Serializable {
         this.inventoryBranch = inventoryBranch;
     }
 
-    public Item getItemno() {
+    public String getItemno() {
         return itemno;
     }
 
-    public void setItemno(Item itemno) {
+    public void setItemno(String itemno) {
         this.itemno = itemno;
     }
 
-    @Override
-    public String toString() {
-        return "Stock{" +
-                "stockTransNo='" + stockTransNo + '\'' +
-                ", quantity=" + quantity +
-                ", soldQuantity=" + soldQuantity +
-                ", remainQuantity=" + remainQuantity +
-                ", inventoryBranch=" + inventoryBranch +
-                ", itemno=" + itemno +
-                '}';
+    public Date getStockCreationDate() {
+        return stockCreationDate;
+    }
+
+    public void setStockCreationDate(Date stockCreationDate) {
+        this.stockCreationDate = stockCreationDate;
     }
 }

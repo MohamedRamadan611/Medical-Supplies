@@ -1,19 +1,24 @@
 package com.MedicalSuppliesSystem.MedicalSupplies.dto;
 
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
-public class ItemDto {
+public class ItemDto implements Serializable {
 
     private String itemno;
-    private BigDecimal price;
+    private BigDecimal itemPrice;
     private String details;
     private String itemName;
     private String company;
 
-    public ItemDto(String itemno, BigDecimal price, String details, String itemName, String company) {
+    public ItemDto() {
+    }
+
+
+    public ItemDto(String itemno, BigDecimal itemPrice, String details, String itemName, String company) {
         this.itemno = itemno;
-        this.price = price;
+        this.itemPrice = itemPrice;
         this.details = details;
         this.itemName = itemName;
         this.company = company;
@@ -27,12 +32,13 @@ public class ItemDto {
         this.itemno = itemno;
     }
 
-    public BigDecimal getPrice() {
-        return price;
+
+    public BigDecimal getItemPrice() {
+        return itemPrice;
     }
 
-    public void setPrice(BigDecimal price) {
-        this.price = price;
+    public void setItemPrice(BigDecimal itemPrice) {
+        this.itemPrice = itemPrice;
     }
 
     public String getDetails() {
@@ -63,7 +69,7 @@ public class ItemDto {
     public String toString() {
         return "itemDto{" +
                 "itemno='" + itemno + '\'' +
-                ", price=" + price +
+                ", price=" + itemPrice +
                 ", details='" + details + '\'' +
                 ", itemName='" + itemName + '\'' +
                 ", company='" + company + '\'' +

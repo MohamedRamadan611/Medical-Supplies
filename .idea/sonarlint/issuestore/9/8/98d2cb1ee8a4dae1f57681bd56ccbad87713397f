@@ -1,0 +1,32 @@
+
+s
+java:S1488"]Immediately return this expression instead of assigning it to the temporary variable "order".(Ï™Ç•
+{
+java:S1488"`Immediately return this expression instead of assigning it to the temporary variable "orderDto".(ØŒƒÏüÿÿÿÿ
+w
+java:S1488"\Immediately return this expression instead of assigning it to the temporary variable "item".(ºÛ·¾øÿÿÿÿ
+u
+java:S1488"_Immediately return this expression instead of assigning it to the temporary variable "itemDto".(½ı×ã
+{
+java:S1488$"`Immediately return this expression instead of assigning it to the temporary variable "customer".(íí‡¿øÿÿÿÿ
+~
+java:S1488)"cImmediately return this expression instead of assigning it to the temporary variable "customerDto".(İé¨Íøÿÿÿÿ
+s
+java:S1488."]Immediately return this expression instead of assigning it to the temporary variable "stock".(¹ƒ®ä
+{
+java:S14883"`Immediately return this expression instead of assigning it to the temporary variable "stockDto".(Î¤Íëşÿÿÿÿ
+{
+java:S14888"`Immediately return this expression instead of assigning it to the temporary variable "invoices".(ÛÛŠÿÿÿÿÿ
+y
+java:S1488="cImmediately return this expression instead of assigning it to the temporary variable "invoicesDto".(òÇò
+t	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(¤Æ„Öúÿÿÿÿ
+h	java:S100"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(‚Áİúÿÿÿÿ
+c	java:S100"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ì¾öë
+h	java:S100"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(À¥À­üÿÿÿÿ
+h	java:S100"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¤ÅÈ¹øÿÿÿÿ
+h	java:S100""NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Êñ†üÿÿÿÿ
+h	java:S100'"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ü¼Š şÿÿÿÿ
+c	java:S100,"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(éÒş’
+c	java:S1001"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(‘ùÖ÷
+c	java:S1006"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(åÜ£û
+h	java:S100;"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(…œêÚüÿÿÿÿ

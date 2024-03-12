@@ -1,12 +1,16 @@
 package com.MedicalSuppliesSystem.MedicalSupplies.model;
 
+import com.MedicalSuppliesSystem.MedicalSupplies.utils.serializer.JsonDateTimeDeserializer;
+import com.MedicalSuppliesSystem.MedicalSupplies.utils.serializer.JsonDateTimeSerializer;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.hibernate.annotations.GenericGenerator;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.math.BigInteger;
+import java.util.Date;
 import java.util.List;
-import javax.persistence.*;
 
 @Entity
 @Table(name="orders")
@@ -19,7 +23,7 @@ public class Order implements Serializable {
     private Long orderNo;
     @Column(name="order_type")
     private String orderType;
-    @Column(name="customerno")
+    @JoinColumn(name="customerno" , referencedColumnName = "customer_id")
     @ManyToOne(optional = true , cascade = {CascadeType.ALL})
     private Customer customerno;
     @Column(name="order_address")
@@ -32,20 +36,13 @@ public class Order implements Serializable {
     private BigDecimal amount;
     @Column(name="discount")
     private BigDecimal discount;
-    @OneToMany(orphanRemoval = true, cascade = {CascadeType.ALL}, mappedBy = "itemno", fetch = FetchType.LAZY)
-    private List<Item> itemList;
-
-    public Order(Long orderNo, String orderType, Customer customerno, String orderAddress, BigDecimal deliveryPrice, BigDecimal orderPrice, BigDecimal amount, BigDecimal discount, List<Item> itemList) {
-        this.orderNo = orderNo;
-        this.orderType = orderType;
-        this.customerno = customerno;
-        this.orderAddress = orderAddress;
-        this.deliveryPrice = deliveryPrice;
-        this.orderPrice = orderPrice;
-        this.amount = amount;
-        this.discount = discount;
-        this.itemList = itemList;
-    }
+    @OneToMany(orphanRemoval = true, cascade = {CascadeType.ALL}, mappedBy = "orderno", fetch = FetchType.LAZY)
+    private List<OrderDetails> orderDetails;
+    @Temporal(TemporalType.TIMESTAMP)
+    @JsonSerialize(using = JsonDateTimeSerializer.class)
+    @JsonDeserialize(using = JsonDateTimeDeserializer.class)
+    @Column(name = "order_creation_date")
+    private Date orderCreationDate;
 
     public Long getOrderNo() {
         return orderNo;
@@ -111,12 +108,20 @@ public class Order implements Serializable {
         this.discount = discount;
     }
 
-    public List<Item> getItemList() {
-        return itemList;
+    public List<OrderDetails> getOrderDetails() {
+        return orderDetails;
     }
 
-    public void setItemList(List<Item> itemList) {
-        this.itemList = itemList;
+    public void setOrderDetails(List<OrderDetails> orderDetails) {
+        this.orderDetails = orderDetails;
+    }
+
+    public Date getOrderCreationDate() {
+        return orderCreationDate;
+    }
+
+    public void setOrderCreationDate(Date orderCreationDate) {
+        this.orderCreationDate = orderCreationDate;
     }
 
     @Override
@@ -130,7 +135,8 @@ public class Order implements Serializable {
                 ", orderPrice=" + orderPrice +
                 ", amount=" + amount +
                 ", discount=" + discount +
-                ", itemList=" + itemList +
+                ", orderDetails=" + orderDetails +
+                ", orderCreationDate=" + orderCreationDate +
                 '}';
     }
 }

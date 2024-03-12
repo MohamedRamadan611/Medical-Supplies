@@ -1,30 +1,38 @@
 package com.MedicalSuppliesSystem.MedicalSupplies.dto;
 
-import com.MedicalSuppliesSystem.MedicalSupplies.model.Customer;
-import com.MedicalSuppliesSystem.MedicalSupplies.model.Item;
+import com.MedicalSuppliesSystem.MedicalSupplies.utils.serializer.JsonDateTimeDeserializer;
+import com.MedicalSuppliesSystem.MedicalSupplies.utils.serializer.JsonDateTimeSerializer;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 
-public class OrderDto {
+public class OrderDto implements Serializable {
 
     private String orderType;
-    private Customer customerno;
+    private CustomerDto customerno;
     private String orderAddress;
     private BigDecimal deliveryPrice;
-    private BigDecimal orderPrice;
-    private BigDecimal amount;
     private BigDecimal discount;
-    private List<Item> itemList;
+    private List<OrderDetailsDto> orderDetails;
 
-    public OrderDto(String orderType, Customer customerno, String orderAddress, BigDecimal deliveryPrice, BigDecimal orderPrice, BigDecimal amount, BigDecimal discount, List<Item> itemList) {
+
+    public OrderDto() {
+    }
+
+    public OrderDto(String orderType, CustomerDto customerno, String orderAddress, BigDecimal deliveryPrice, BigDecimal discount, int inventoryBranch, List<OrderDetailsDto> orderDetails) {
         this.orderType = orderType;
         this.customerno = customerno;
         this.orderAddress = orderAddress;
         this.deliveryPrice = deliveryPrice;
-        this.orderPrice = orderPrice;
-        this.amount = amount;
         this.discount = discount;
-        this.itemList = itemList;
+        this.orderDetails = orderDetails;
     }
 
     public String getOrderType() {
@@ -35,11 +43,11 @@ public class OrderDto {
         this.orderType = orderType;
     }
 
-    public Customer getCustomerno() {
+    public CustomerDto getCustomerno() {
         return customerno;
     }
 
-    public void setCustomerno(Customer customerno) {
+    public void setCustomerno(CustomerDto customerno) {
         this.customerno = customerno;
     }
 
@@ -51,29 +59,6 @@ public class OrderDto {
         this.orderAddress = orderAddress;
     }
 
-    public BigDecimal getDeliveryPrice() {
-        return deliveryPrice;
-    }
-
-    public void setDeliveryPrice(BigDecimal deliveryPrice) {
-        this.deliveryPrice = deliveryPrice;
-    }
-
-    public BigDecimal getOrderPrice() {
-        return orderPrice;
-    }
-
-    public void setOrderPrice(BigDecimal orderPrice) {
-        this.orderPrice = orderPrice;
-    }
-
-    public BigDecimal getAmount() {
-        return amount;
-    }
-
-    public void setAmount(BigDecimal amount) {
-        this.amount = amount;
-    }
 
     public BigDecimal getDiscount() {
         return discount;
@@ -83,12 +68,20 @@ public class OrderDto {
         this.discount = discount;
     }
 
-    public List<Item> getItemList() {
-        return itemList;
+    public List<OrderDetailsDto> getOrderDetails() {
+        return orderDetails;
     }
 
-    public void setItemList(List<Item> itemList) {
-        this.itemList = itemList;
+    public void setOrderDetails(List<OrderDetailsDto> orderDetails) {
+        this.orderDetails = orderDetails;
+    }
+
+    public BigDecimal getDeliveryPrice() {
+        return deliveryPrice;
+    }
+
+    public void setDeliveryPrice(BigDecimal deliveryPrice) {
+        this.deliveryPrice = deliveryPrice;
     }
 
     @Override
@@ -98,10 +91,8 @@ public class OrderDto {
                 ", customerno=" + customerno +
                 ", orderAddress='" + orderAddress + '\'' +
                 ", deliveryPrice=" + deliveryPrice +
-                ", orderPrice=" + orderPrice +
-                ", amount=" + amount +
                 ", discount=" + discount +
-                ", itemList=" + itemList +
+                ", orderDetails=" + orderDetails +
                 '}';
     }
 }

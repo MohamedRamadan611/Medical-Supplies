@@ -1,27 +1,34 @@
 package com.MedicalSuppliesSystem.MedicalSupplies.dto;
 
-import com.MedicalSuppliesSystem.MedicalSupplies.model.Customer;
-import com.MedicalSuppliesSystem.MedicalSupplies.model.Order;
-import org.hibernate.annotations.GenericGenerator;
+import com.MedicalSuppliesSystem.MedicalSupplies.utils.serializer.JsonDateTimeDeserializer;
+import com.MedicalSuppliesSystem.MedicalSupplies.utils.serializer.JsonDateTimeSerializer;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
-public class InvoicesDto {
+public class InvoicesDto implements Serializable {
     private int paymentType;
     private String authCode;
     private BigDecimal deliveryPrice;
     private BigDecimal orderPrice;
     private BigDecimal amount;
     private BigDecimal discount;
+    @Temporal(TemporalType.TIMESTAMP)
+    @JsonSerialize(using = JsonDateTimeSerializer.class)
+    @JsonDeserialize(using = JsonDateTimeDeserializer.class)
     private Date creationDate;
     private String orderType;
-    private Customer customerno;
-    private List<Order> orderList;
+    private CustomerDto customerno;
+    private List<OrderDto> orderList;
+    private String orderAddress;
 
-    public InvoicesDto(int paymentType, String authCode, BigDecimal deliveryPrice, BigDecimal orderPrice, BigDecimal amount, BigDecimal discount, Date creationDate, String orderType, Customer customerno, List<Order> orderList) {
+
+    public InvoicesDto(int paymentType, String authCode, BigDecimal deliveryPrice, BigDecimal orderPrice, BigDecimal amount, BigDecimal discount, Date creationDate, String orderType, CustomerDto customerno, List<OrderDto> orderList, String orderAddress) {
         this.paymentType = paymentType;
         this.authCode = authCode;
         this.deliveryPrice = deliveryPrice;
@@ -32,6 +39,7 @@ public class InvoicesDto {
         this.orderType = orderType;
         this.customerno = customerno;
         this.orderList = orderList;
+        this.orderAddress = orderAddress;
     }
 
     public int getPaymentType() {
@@ -98,20 +106,28 @@ public class InvoicesDto {
         this.orderType = orderType;
     }
 
-    public Customer getCustomerno() {
+    public CustomerDto getCustomerno() {
         return customerno;
     }
 
-    public void setCustomerno(Customer customerno) {
+    public void setCustomerno(CustomerDto customerno) {
         this.customerno = customerno;
     }
 
-    public List<Order> getOrderList() {
+    public List<OrderDto> getOrderList() {
         return orderList;
     }
 
-    public void setOrderList(List<Order> orderList) {
+    public void setOrderList(List<OrderDto> orderList) {
         this.orderList = orderList;
+    }
+
+    public String getOrderAddress() {
+        return orderAddress;
+    }
+
+    public void setOrderAddress(String orderAddress) {
+        this.orderAddress = orderAddress;
     }
 
     @Override

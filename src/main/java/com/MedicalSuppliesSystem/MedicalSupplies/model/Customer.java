@@ -1,10 +1,13 @@
 package com.MedicalSuppliesSystem.MedicalSupplies.model;
 
+import com.MedicalSuppliesSystem.MedicalSupplies.model.pk.CustomerId;
+import com.MedicalSuppliesSystem.MedicalSupplies.utils.serializer.JsonDateTimeDeserializer;
+import com.MedicalSuppliesSystem.MedicalSupplies.utils.serializer.JsonDateTimeSerializer;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.hibernate.annotations.GenericGenerator;
-
 import javax.persistence.*;
 import java.io.Serializable;
-import java.math.BigInteger;
 import java.util.Date;
 
 @Entity
@@ -16,26 +19,18 @@ public class Customer implements Serializable {
     @GeneratedValue(strategy= GenerationType.AUTO,generator="native")
     @GenericGenerator(name = "native",strategy = "native")
     private Long customerId;
-
     @Column(name="phone")
     private String phone;
-
     @Column(name="address")
     private String address;
-
     @Column(name="customer_name")
     private String customerName;
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "creation_date")
-    private Date creationDate;
+    @JsonSerialize(using = JsonDateTimeSerializer.class)
+    @JsonDeserialize(using = JsonDateTimeDeserializer.class)
+    @Column(name = "customer_creation_date")
+    private Date customerCreationDate;
 
-    public Customer(Long customerId, String phone, String address, String customerName, Date creationDate) {
-        this.customerId = customerId;
-        this.phone = phone;
-        this.address = address;
-        this.customerName = customerName;
-        this.creationDate = creationDate;
-    }
 
     public Long getCustomerId() {
         return customerId;
@@ -69,12 +64,12 @@ public class Customer implements Serializable {
         this.customerName = customerName;
     }
 
-    public Date getCreationDate() {
-        return creationDate;
+    public Date getCustomerCreationDate() {
+        return customerCreationDate;
     }
 
-    public void setCreationDate(Date creationDate) {
-        this.creationDate = creationDate;
+    public void setCustomerCreationDate(Date customerCreationDate) {
+        this.customerCreationDate = customerCreationDate;
     }
 
     @Override
@@ -84,7 +79,7 @@ public class Customer implements Serializable {
                 ", phone='" + phone + '\'' +
                 ", address='" + address + '\'' +
                 ", customerName='" + customerName + '\'' +
-                ", creationDate=" + creationDate +
+                ", customerCreationDate=" + customerCreationDate +
                 '}';
     }
 }
