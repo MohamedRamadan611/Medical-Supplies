@@ -11,6 +11,7 @@ public abstract class ConstantStrings {
     public static final String SUB_ORDER_URL = "/order";
     public static final String SUB_ITEM_URL = "/item";
     public static final String SUB_STOCK_URL = "/stock";
+    public static final String SUB_INVOICE_URL = "/invoice";
     public static final String DATE_FORMATE = "yyyy-MM-dd";
     public static final String MOBILE_DATE_FORMAT = "yyyy.MM.dd-HH:mm:ss";
 

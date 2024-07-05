@@ -10,17 +10,28 @@ public class MappingClass {
 
     @Autowired
     private ModelMapper model;
-    public Order MapToOrder(OrderDto orderDto)
+    public Order MapToOrder(BaseOrderDto baseOrderDto)
     {
-        Order order = model.map(orderDto , Order.class);
+        Order order = model.map(baseOrderDto, Order.class);
         return order;
     }
 
+    public BaseOrderDto MapToBaseOrderDto(Order order)
+    {
+        BaseOrderDto baseOrderDto = model.map(order , BaseOrderDto.class);
+        return baseOrderDto;
+    }
     public OrderDto MapToOrderDto(Order order)
     {
         OrderDto orderDto = model.map(order , OrderDto.class);
         return orderDto;
     }
+    public Order MapToOrderFromOrderDto(OrderDto orderDto)
+    {
+        Order order = model.map(orderDto, Order.class);
+        return order;
+    }
+
     public Item MapToItem(ItemDto itemDto)
     {
         Item item = model.map(itemDto , Item.class);

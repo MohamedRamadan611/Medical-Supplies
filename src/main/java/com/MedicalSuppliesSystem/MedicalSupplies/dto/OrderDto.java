@@ -2,97 +2,76 @@ package com.MedicalSuppliesSystem.MedicalSupplies.dto;
 
 import com.MedicalSuppliesSystem.MedicalSupplies.utils.serializer.JsonDateTimeDeserializer;
 import com.MedicalSuppliesSystem.MedicalSupplies.utils.serializer.JsonDateTimeSerializer;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
+import javax.persistence.Column;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
-public class OrderDto implements Serializable {
+public class OrderDto extends BaseOrderDto {
 
-    private String orderType;
-    private CustomerDto customerno;
-    private String orderAddress;
-    private BigDecimal deliveryPrice;
-    private BigDecimal discount;
-    private List<OrderDetailsDto> orderDetails;
-
+    private Long orderNo;
+    private BigDecimal orderPrice;
+    private BigDecimal amount;
+    @Temporal(TemporalType.TIMESTAMP)
+    @JsonSerialize(using = JsonDateTimeSerializer.class)
+    @JsonDeserialize(using = JsonDateTimeDeserializer.class)
+    private Date orderCreationDate;
 
     public OrderDto() {
     }
 
-    public OrderDto(String orderType, CustomerDto customerno, String orderAddress, BigDecimal deliveryPrice, BigDecimal discount, int inventoryBranch, List<OrderDetailsDto> orderDetails) {
-        this.orderType = orderType;
-        this.customerno = customerno;
-        this.orderAddress = orderAddress;
-        this.deliveryPrice = deliveryPrice;
-        this.discount = discount;
-        this.orderDetails = orderDetails;
+    public OrderDto(String orderType, CustomerDto customerno, String orderAddress, BigDecimal deliveryPrice, BigDecimal discount, int inventoryBranch, List<OrderDetailsDto> orderDetails, Long orderNo, BigDecimal orderPrice, BigDecimal amount, Date orderCreationDate) {
+        super(orderType, customerno, orderAddress, deliveryPrice, discount, inventoryBranch, orderDetails);
+        this.orderNo = orderNo;
+        this.orderPrice = orderPrice;
+        this.amount = amount;
+        this.orderCreationDate = orderCreationDate;
     }
 
-    public String getOrderType() {
-        return orderType;
+    public BigDecimal getOrderPrice() {
+        return orderPrice;
     }
 
-    public void setOrderType(String orderType) {
-        this.orderType = orderType;
+    public void setOrderPrice(BigDecimal orderPrice) {
+        this.orderPrice = orderPrice;
     }
 
-    public CustomerDto getCustomerno() {
-        return customerno;
+    public BigDecimal getAmount() {
+        return amount;
     }
 
-    public void setCustomerno(CustomerDto customerno) {
-        this.customerno = customerno;
+    public void setAmount(BigDecimal amount) {
+        this.amount = amount;
     }
 
-    public String getOrderAddress() {
-        return orderAddress;
+    public Date getOrderCreationDate() {
+        return orderCreationDate;
     }
 
-    public void setOrderAddress(String orderAddress) {
-        this.orderAddress = orderAddress;
+    public void setOrderCreationDate(Date orderCreationDate) {
+        this.orderCreationDate = orderCreationDate;
     }
 
-
-    public BigDecimal getDiscount() {
-        return discount;
+    public Long getOrderNo() {
+        return orderNo;
     }
 
-    public void setDiscount(BigDecimal discount) {
-        this.discount = discount;
-    }
-
-    public List<OrderDetailsDto> getOrderDetails() {
-        return orderDetails;
-    }
-
-    public void setOrderDetails(List<OrderDetailsDto> orderDetails) {
-        this.orderDetails = orderDetails;
-    }
-
-    public BigDecimal getDeliveryPrice() {
-        return deliveryPrice;
-    }
-
-    public void setDeliveryPrice(BigDecimal deliveryPrice) {
-        this.deliveryPrice = deliveryPrice;
+    public void setOrderNo(Long orderNo) {
+        this.orderNo = orderNo;
     }
 
     @Override
     public String toString() {
         return "OrderDto{" +
-                "orderType='" + orderType + '\'' +
-                ", customerno=" + customerno +
-                ", orderAddress='" + orderAddress + '\'' +
-                ", deliveryPrice=" + deliveryPrice +
-                ", discount=" + discount +
-                ", orderDetails=" + orderDetails +
+                "orderNo=" + orderNo +
+                ", orderPrice=" + orderPrice +
+                ", amount=" + amount +
+                ", orderCreationDate=" + orderCreationDate +
                 '}';
     }
 }

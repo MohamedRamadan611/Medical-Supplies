@@ -2,7 +2,7 @@ package com.MedicalSuppliesSystem.MedicalSupplies.controller.order;
 
 import com.MedicalSuppliesSystem.MedicalSupplies.business.services.interfaces.IOrderService;
 import com.MedicalSuppliesSystem.MedicalSupplies.controller.ControllerHelper;
-import com.MedicalSuppliesSystem.MedicalSupplies.dto.OrderDto;
+import com.MedicalSuppliesSystem.MedicalSupplies.dto.BaseOrderDto;
 import com.MedicalSuppliesSystem.MedicalSupplies.enums.ResponseMessageEnum;
 import com.MedicalSuppliesSystem.MedicalSupplies.exception.BusinessException;
 import com.MedicalSuppliesSystem.MedicalSupplies.model.ConstantStrings;
@@ -26,14 +26,14 @@ public class OrderController extends ControllerHelper {
     private IOrderService iOrderService;
 
     @RequestMapping(value = "/createOrder" , consumes = {MediaType.APPLICATION_JSON_VALUE} , method = RequestMethod.POST)
-    public ResponseEntity createOrder(@RequestBody OrderDto orderDto)
+    public ResponseEntity createOrder(@RequestBody BaseOrderDto baseOrderDto)
     {
-        logger.info("Start creating order {} ... " , orderDto.toString());
+        logger.info("Start creating order {} ... " , baseOrderDto.toString());
         try{
-            if(orderDto != null)
+            if(baseOrderDto != null)
             {
                 logger.info("receiving order data to save");
-                iOrderService.createOrder(orderDto);
+                iOrderService.createOrder(baseOrderDto);
                 logger.info("Order saved...");
                 return buildResponseEntity(true, ResponseMessageEnum.SUCCESS.getMessage(), ResponseMessageEnum.SUCCESS.getMessage(), HttpStatus.CREATED);
             }
@@ -49,13 +49,13 @@ public class OrderController extends ControllerHelper {
     @RequestMapping(value = "/findOrders" , consumes = {MediaType.APPLICATION_JSON_VALUE} , method = RequestMethod.POST)
     public ResponseEntity findOrders(@RequestBody SearchParPojo searchParPojo)
     {
-        logger.info("Start creating order {} ... " , searchParPojo.toString());
+        logger.info("Start retrieving orders {} ... " , searchParPojo.toString());
         try{
             if(searchParPojo != null)
             {
-                logger.info("receiving order data to save");
+                logger.info("receiving order data");
                 Pageable pageRequest = buildPageRequest(searchParPojo);
-                logger.info("Order saved...");
+                logger.info("Order retrieved ...");
                 return buildResponseEntity(true, ResponseMessageEnum.SUCCESS.getMessage(), iOrderService.findOrders(searchParPojo,pageRequest), HttpStatus.OK);
             }
             else

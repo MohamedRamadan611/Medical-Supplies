@@ -7,13 +7,12 @@ import com.MedicalSuppliesSystem.MedicalSupplies.business.repository.StockReposi
 import com.MedicalSuppliesSystem.MedicalSupplies.business.services.interfaces.IOrderService;
 import com.MedicalSuppliesSystem.MedicalSupplies.dto.CustomerDto;
 import com.MedicalSuppliesSystem.MedicalSupplies.dto.MappingClass;
-import com.MedicalSuppliesSystem.MedicalSupplies.dto.OrderDetailsDto;
+import com.MedicalSuppliesSystem.MedicalSupplies.dto.BaseOrderDto;
 import com.MedicalSuppliesSystem.MedicalSupplies.dto.OrderDto;
 import com.MedicalSuppliesSystem.MedicalSupplies.exception.BusinessException;
 import com.MedicalSuppliesSystem.MedicalSupplies.model.*;
 import com.MedicalSuppliesSystem.MedicalSupplies.pojos.FilterPojo;
 import com.MedicalSuppliesSystem.MedicalSupplies.pojos.SearchParPojo;
-import com.MedicalSuppliesSystem.MedicalSupplies.utils.DateUtilities;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,8 +21,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -45,20 +42,20 @@ public class OrderServiceImpl implements IOrderService {
     private MappingClass mappingClass;
     @Override
     @Transactional
-    public void createOrder(OrderDto orderDto) {
+    public void createOrder(BaseOrderDto baseOrderDto) {
         try {
             logger.info("start preparing order to save to DB");
-            validateStockItem(orderDto);
+            validateStockItem(baseOrderDto);
             Order order = new Order();
-            order.setOrderType(orderDto.getOrderType());
-            order.setOrderAddress(orderDto.getOrderAddress());
-            order.setDiscount(orderDto.getDiscount());
+            order.setOrderType(baseOrderDto.getOrderType());
+            order.setOrderAddress(baseOrderDto.getOrderAddress());
+            order.setDiscount(baseOrderDto.getDiscount());
             order.setOrderCreationDate(new Date());
 /*            Customer customer = checkCustomerExistOrNew(orderDto.getCustomerno());
             if(customer != null)
                 order.setCustomerno(customer);
             else*/
-            order.setCustomerno(checkCustomerExistOrNew(orderDto.getCustomerno()));
+            order.setCustomerno(checkCustomerExistOrNew(baseOrderDto.getCustomerno()));
             order.getCustomerno().setCustomerCreationDate(new Date());
             logger.info("customer in order is {} " , order.getCustomerno().toString());
             order.setOrderPrice(BigDecimal.ZERO);
@@ -66,7 +63,7 @@ public class OrderServiceImpl implements IOrderService {
             logger.info("order saved in DB without Details");
             orderRepository.save(order);
             logger.info("preparing order details to set in order");
-            List<OrderDetails> orderDetails = orderDto.getOrderDetails().stream().map(orderDetailsDto -> {
+            List<OrderDetails> orderDetails = baseOrderDto.getOrderDetails().stream().map(orderDetailsDto -> {
                 Item item = itemRepository.findById(orderDetailsDto.getItemno()).orElseThrow(() -> new BusinessException("this item isn't found"));
                 OrderDetails orderDetails1 = new OrderDetails();
                 orderDetails1.setOrderno(order.getOrderNo());
@@ -79,9 +76,9 @@ public class OrderServiceImpl implements IOrderService {
                 return orderDetails1;
             }).collect(Collectors.toList());
             order.setOrderDetails(orderDetails);
-            order.setDeliveryPrice(orderDto.getDeliveryPrice());
-            logger.info("Order price is {} and Deliver Price is {} and Discount is {} ", order.getOrderPrice(), orderDto.getDeliveryPrice(), orderDto.getDiscount());
-            order.setAmount((order.getOrderPrice().add(orderDto.getDeliveryPrice())).subtract(orderDto.getDiscount()));
+            order.setDeliveryPrice(baseOrderDto.getDeliveryPrice());
+            logger.info("Order price is {} and Deliver Price is {} and Discount is {} ", order.getOrderPrice(), baseOrderDto.getDeliveryPrice(), baseOrderDto.getDiscount());
+            order.setAmount((order.getOrderPrice().add(baseOrderDto.getDeliveryPrice())).subtract(baseOrderDto.getDiscount()));
             orderRepository.save(order);
             logger.info("order is saved {} " , order.toString());
             logger.info("update stock");
@@ -111,6 +108,7 @@ public class OrderServiceImpl implements IOrderService {
         String toDate = null;
         String orderType = null;
         String phone = null;
+        String orderFilter = null;
         FilterPojo filterPojo = new FilterPojo();
 
 
@@ -120,23 +118,28 @@ public class OrderServiceImpl implements IOrderService {
         if (searchParPojo.getFiltersList() != null && !searchParPojo.getFiltersList().isEmpty()) {
             for (FilterPojo forFilterPojo : searchParPojo.getFiltersList()) {
                 if (!fieldNameExist && !filterValueExist) {
-                    if (forFilterPojo.getFieldName().equals("orderno")) {
+                    if(forFilterPojo.getFieldName().equals("orderFilter"))
+                    {
+                        orderFilter = forFilterPojo.getFilter().isEmpty() ? null : forFilterPojo.getFilter();
+                    }
+/*                    if (forFilterPojo.getFieldName().equals("orderno")) {
                         orderno = forFilterPojo.getFilter().isEmpty() ? null : forFilterPojo.getFilter();
                     } else if (forFilterPojo.getFieldName().equals("customerno")) {
                         customerno = forFilterPojo.getFilter().isEmpty() ? null : forFilterPojo.getFilter();
                     } else if (forFilterPojo.getFieldName().equals("phone")) {
                         phone = forFilterPojo.getFilter().isEmpty() ? null : forFilterPojo.getFilter();
-                    } else if (forFilterPojo.getFieldName().equals("orderType")) {
+                    }*/ else if (forFilterPojo.getFieldName().equals("orderType")) {
                         orderType = forFilterPojo.getFilter().isEmpty() ? null : forFilterPojo.getFilter();
                     } else if (forFilterPojo.getFieldName().equals("fromDate")) {
                         fromDate = forFilterPojo.getFilter().isEmpty() ? null : forFilterPojo.getFilter();
                     } else if (forFilterPojo.getFieldName().equals("toDate")) {
                         toDate = forFilterPojo.getFilter().isEmpty() ? null : forFilterPojo.getFilter();
                     }
+
                 }
             }
         }
-        List<Order> orderList = orderRepository.findOrders(orderno , customerno ,phone, orderType , fromDate , toDate , pageable);
+        List<Order> orderList = orderRepository.findOrders(orderFilter , orderType, fromDate , toDate , pageable);
         return orderList.stream().map(order -> mappingClass.MapToOrderDto(order)).collect(Collectors.toList());
     }
 
@@ -165,9 +168,9 @@ public class OrderServiceImpl implements IOrderService {
         }
     }
 
-    private void validateStockItem(OrderDto orderDto) {
+    private void validateStockItem(BaseOrderDto baseOrderDto) {
         try {
-            orderDto.getOrderDetails().stream().forEach(orderDetailsDto -> {
+            baseOrderDto.getOrderDetails().stream().forEach(orderDetailsDto -> {
                 Stock stock = stockRepository.findStock(orderDetailsDto.getInventoryBranch() , orderDetailsDto.getItemno());
                 if(stock == null)
                     throw new BusinessException("this item {} didn't have stock " + orderDetailsDto.getItemno());

@@ -24,11 +24,11 @@ public class InvoicesDto implements Serializable {
     private Date creationDate;
     private String orderType;
     private CustomerDto customerno;
-    private List<OrderDto> orderList;
+    private List<BaseOrderDto> orderList;
     private String orderAddress;
 
 
-    public InvoicesDto(int paymentType, String authCode, BigDecimal deliveryPrice, BigDecimal orderPrice, BigDecimal amount, BigDecimal discount, Date creationDate, String orderType, CustomerDto customerno, List<OrderDto> orderList, String orderAddress) {
+    public InvoicesDto(int paymentType, String authCode, BigDecimal deliveryPrice, BigDecimal orderPrice, BigDecimal amount, BigDecimal discount, Date creationDate, String orderType, CustomerDto customerno, List<BaseOrderDto> orderList, String orderAddress) {
         this.paymentType = paymentType;
         this.authCode = authCode;
         this.deliveryPrice = deliveryPrice;
@@ -114,11 +114,11 @@ public class InvoicesDto implements Serializable {
         this.customerno = customerno;
     }
 
-    public List<OrderDto> getOrderList() {
+    public List<BaseOrderDto> getOrderList() {
         return orderList;
     }
 
-    public void setOrderList(List<OrderDto> orderList) {
+    public void setOrderList(List<BaseOrderDto> orderList) {
         this.orderList = orderList;
     }
 

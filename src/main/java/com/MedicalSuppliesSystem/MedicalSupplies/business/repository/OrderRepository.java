@@ -13,13 +13,13 @@ import java.util.List;
 @Repository
 public interface OrderRepository extends JpaRepository<Order, Serializable> {
     @Query("Select o From Order o Where " +
-            " (:orderno is null or o.orderNo like concat(convert(:orderno,signed),'%')) " +
-            " AND (:customerno is null or o.customerno.customerId like concat(convert(:customerno,signed) , '%')) " +
-            " AND (:phone is null or o.customerno.phone like concat(:phone,'%')) " +
+            " ( (:orderFilter is null or o.orderNo like concat(convert(:orderFilter,signed),'%')) " +
+            " OR (:orderFilter is null or o.customerno.customerId like concat(convert(:orderFilter,signed) , '%')) " +
+            " OR (:orderFilter is null or o.customerno.phone like concat(:orderFilter,'%')) " +
+            " OR (:orderFilter is null or o.customerno.customerName like concat('%' , :orderFilter , '%')) )" +
             " AND (:orderType is null or o.orderType = :orderType ) " +
             " AND (COALESCE(:fromDate, '1000-01-01') <= o.orderCreationDate and COALESCE(o.orderCreationDate , '3000-01-01') <= COALESCE(:toDate , '3000-01-01') )" +
             " Order by o.orderCreationDate")
-    List<Order> findOrders(@Param("orderno") String orderno, @Param("customerno") String customerno,@Param("phone") String phone, @Param("orderType") String orderType
-            , @Param("fromDate") String fromDate, @Param("toDate") String toDate , Pageable pageable);
+    List<Order> findOrders(@Param("orderFilter") String orderFilter ,@Param("orderType") String orderType, @Param("fromDate") String fromDate, @Param("toDate") String toDate , Pageable pageable);
 
 }
