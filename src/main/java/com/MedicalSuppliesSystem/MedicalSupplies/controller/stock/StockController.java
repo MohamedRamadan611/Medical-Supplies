@@ -73,7 +73,7 @@ public class StockController extends ControllerHelper {
     @RequestMapping(value = "/findFinishedStock" , consumes = {MediaType.APPLICATION_JSON_VALUE} , method = RequestMethod.POST)
     public ResponseEntity findFinishedStock()
     {
-        try{
+        try {
                 logger.info("retriving stock ... ");
                 //Pageable pageRequest = buildPageRequest();
                 return buildResponseEntity(true, ResponseMessageEnum.SUCCESS.getMessage(), iStockService.findFinishedStock(), HttpStatus.CREATED);

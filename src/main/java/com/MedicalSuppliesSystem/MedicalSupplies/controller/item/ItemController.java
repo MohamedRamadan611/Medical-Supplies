@@ -52,7 +52,7 @@ public class ItemController extends ControllerHelper {
     public ResponseEntity findItem(@RequestBody SearchParPojo searchParPojo)
     {
         logger.info("Start retriving item {} ... " , searchParPojo.toString());
-        try{
+        try {
             if(searchParPojo != null)
             {
                 logger.info("retriving item ... ");

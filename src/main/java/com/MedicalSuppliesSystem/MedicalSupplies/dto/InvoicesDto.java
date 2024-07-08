@@ -1,5 +1,6 @@
 package com.MedicalSuppliesSystem.MedicalSupplies.dto;
 
+import com.MedicalSuppliesSystem.MedicalSupplies.model.Order;
 import com.MedicalSuppliesSystem.MedicalSupplies.utils.serializer.JsonDateTimeDeserializer;
 import com.MedicalSuppliesSystem.MedicalSupplies.utils.serializer.JsonDateTimeSerializer;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -24,11 +25,11 @@ public class InvoicesDto implements Serializable {
     private Date creationDate;
     private String orderType;
     private CustomerDto customerno;
-    private List<BaseOrderDto> orderList;
+    private List<Order> orderList;
     private String orderAddress;
 
 
-    public InvoicesDto(int paymentType, String authCode, BigDecimal deliveryPrice, BigDecimal orderPrice, BigDecimal amount, BigDecimal discount, Date creationDate, String orderType, CustomerDto customerno, List<BaseOrderDto> orderList, String orderAddress) {
+    public InvoicesDto(int paymentType, String authCode, BigDecimal deliveryPrice, BigDecimal orderPrice, BigDecimal amount, BigDecimal discount, Date creationDate, String orderType, CustomerDto customerno, List<Order> orderList, String orderAddress) {
         this.paymentType = paymentType;
         this.authCode = authCode;
         this.deliveryPrice = deliveryPrice;
@@ -114,11 +115,11 @@ public class InvoicesDto implements Serializable {
         this.customerno = customerno;
     }
 
-    public List<BaseOrderDto> getOrderList() {
+    public List<Order> getOrderList() {
         return orderList;
     }
 
-    public void setOrderList(List<BaseOrderDto> orderList) {
+    public void setOrderList(List<Order> orderList) {
         this.orderList = orderList;
     }
 
