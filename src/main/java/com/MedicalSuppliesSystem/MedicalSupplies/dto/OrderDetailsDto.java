@@ -8,12 +8,12 @@ public class OrderDetailsDto implements Serializable {
 
     private String itemno;
     private Long itemQuantity;
-    private int inventoryBranch;
+    private Integer inventoryBranch;
 
     public OrderDetailsDto() {
     }
 
-    public OrderDetailsDto(String itemno, Long itemQuantity, int inventoryBranch) {
+    public OrderDetailsDto(String itemno, Long itemQuantity, Integer inventoryBranch) {
         this.itemno = itemno;
         this.itemQuantity = itemQuantity;
         this.inventoryBranch = inventoryBranch;
@@ -27,11 +27,11 @@ public class OrderDetailsDto implements Serializable {
         this.itemno = itemno;
     }
 
-    public int getInventoryBranch() {
+    public Integer getInventoryBranch() {
         return inventoryBranch;
     }
 
-    public void setInventoryBranch(int inventoryBranch) {
+    public void setInventoryBranch(Integer inventoryBranch) {
         this.inventoryBranch = inventoryBranch;
     }
 

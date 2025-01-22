@@ -23,6 +23,7 @@ public class Invoices implements Serializable {
     @GenericGenerator(name = "native",strategy = "native")
     private Long invoiceno;
     @Column(name ="payment_type")
+    @Transient
     private int paymentType;
     @Column(name = "payment_status")
     private String paymentStatus;
