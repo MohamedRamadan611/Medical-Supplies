@@ -7,6 +7,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.slf4j.Logger;
 
+import javax.annotation.PostConstruct;
+
 @SpringBootApplication
 public class MedicalSuppliesApplication {
 
@@ -16,7 +18,11 @@ public class MedicalSuppliesApplication {
 	public ModelMapper modelMapper() {
 		return new ModelMapper();
 	}
-
+	@PostConstruct
+	public void method ()
+	{
+		logger.info("testing is executing");
+	}
 	public static void main(String[] args) {
 		logger.info("Application is started");
 		SpringApplication.run(MedicalSuppliesApplication.class, args);
