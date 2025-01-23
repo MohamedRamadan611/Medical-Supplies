@@ -14,7 +14,7 @@ class MedicalSuppliesApplicationTests {
 
 	@Test
 	void contextLoads() {
-		logger.info("Testing is executing")
+		logger.info("Testing is executing");
 		assertEquals(true,true);
 
 	}
